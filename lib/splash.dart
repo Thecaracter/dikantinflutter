@@ -12,7 +12,7 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(Duration(seconds: 4), () {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -33,7 +33,7 @@ class _SplashState extends State<Splash> {
           Container(
             padding: EdgeInsets.only(top: 200),
             child: Image.asset(
-              "assets/sip2.png",
+              "assets/logo_dikantin.png",
               width: MediaQuery.of(context).size.width / 1,
               height: MediaQuery.of(context).size.height / 2,
             ),

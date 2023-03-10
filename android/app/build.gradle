@@ -29,6 +29,10 @@ android {
     compileSdkVersion 33
     
     ndkVersion flutter.ndkVersion
+    
+    packagingOptions {
+    exclude 'META-INF/services/javax.annotation.processing.Processor'
+    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

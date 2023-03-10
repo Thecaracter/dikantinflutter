@@ -34,6 +34,7 @@ class _ProfileState extends State<Profile> {
       _email = prefs.getString('email_token');
       _kantin = prefs.getString('id_kantin');
       _foto = prefs.getString('foto');
+      print(_foto);
 
       String uppercaseToken = _name!.toUpperCase();
     });
@@ -102,13 +103,15 @@ class _ProfileState extends State<Profile> {
                         border: Border.all(width: 2.0, color: Colors.blue),
                       ),
                       child: ClipOval(
-                        child: Image.network(
-                          "http://10.10.0.61/public/storage/foto/" +
-                              (_foto?.replaceAll('"', '') ?? ''),
-                          width: 120.0,
-                          height: 120.0,
-                          fit: BoxFit.cover,
-                        ),
+                        child: _foto != null
+                            ? Image.network(
+                                "http://10.10.0.61/public/storage/foto/" +
+                                    _foto!.replaceAll('"', ''),
+                                width: 120.0,
+                                height: 120.0,
+                                fit: BoxFit.cover,
+                              )
+                            : SizedBox(),
                       ),
                     ),
                     SizedBox(

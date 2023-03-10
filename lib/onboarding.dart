@@ -91,7 +91,16 @@ class _BoardingState extends State<Boarding> {
                 backgroundColor: Color(0xFF4EB2E7),
               ),
               onPressed: () {
-                checkSharedPreferences();
+                // checkSharedPreferences();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => WillPopScope(
+                      onWillPop: () async => false,
+                      child: Login(),
+                    ),
+                  ),
+                );
               },
               child: const Text("Let’s Start"),
             ),

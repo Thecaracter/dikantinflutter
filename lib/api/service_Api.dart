@@ -1,33 +1,13 @@
 import 'dart:convert';
 
+import 'package:dikantin/model/Penjualan_mode.dart';
+import 'package:dikantin/model/Riwayat_model.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:dikantin/model/Menu_model.dart';
 import 'package:dikantin/model/User_model.dart';
-
-class User {
-  String email;
-  String password;
-  String name;
-
-  User({required this.email, required this.password, required this.name});
-
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      email: json['email'],
-      password: json['password'],
-      name: json['name'],
-    );
-  }
-
-  Map<String, dynamic> toJson() => {
-        'email': email,
-        'password': password,
-        'name': name,
-      };
-}
 
 class AuthService {
   static const String apiUrl = 'http://10.10.0.61/api/login';
@@ -101,5 +81,84 @@ class ServiceApi {
       'id_kantin',
       idKantin.toString(),
     );
+  }
+}
+
+class ServiceApiPenjualan {
+  final secureStorage = FlutterSecureStorage();
+  String? _idKantin;
+  Future<List<ModelPenjualan>> getPenjualan() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    _idKantin = prefs.getString('id_kantin');
+
+    final response = await http.post(
+      Uri.parse('http://10.10.0.61/api/api-penjualan'),
+      body: {'id_kantin': _idKantin?.toString() ?? ''},
+    );
+
+    if (response.statusCode == 200) {
+      List jsonResponse = jsonDecode(response.body);
+      return jsonResponse.map((e) => ModelPenjualan.fromJson(e)).toList();
+    } else {
+      throw Exception('Error fetching menu');
+    }
+  }
+
+  Future<void> saveIdKantin(int idKantin) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString(
+      'id_kantin',
+      idKantin.toString(),
+    );
+  }
+}
+
+class ServiceApiRiwayat {
+  final secureStorage = FlutterSecureStorage();
+  String? _idKantin;
+  Future<List<ModelRiwayat>> getriwayat() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    _idKantin = prefs.getString('id_kantin');
+
+    final response = await http.post(
+      Uri.parse('http://10.10.0.61/api/api-riwayat'),
+      body: {'id_kantin': _idKantin?.toString() ?? ''},
+    );
+
+    if (response.statusCode == 200) {
+      List jsonResponse = jsonDecode(response.body);
+      return jsonResponse.map((e) => ModelRiwayat.fromJson(e)).toList();
+    } else {
+      throw Exception('Error fetching menu');
+    }
+  }
+
+  Future<void> saveIdKantin(int idKantin) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString(
+      'id_kantin',
+      idKantin.toString(),
+    );
+  }
+}
+
+class UpdatePenjualanService {
+  Future<void> updateStatusPenjualan(String idDetail) async {
+    final url = Uri.parse('http://10.10.0.61/api/updatestatus');
+    final response = await http.put(
+      url,
+      body: {
+        'id_detail': idDetail,
+      },
+    );
+    if (response.statusCode == 200) {
+      // Berhasil mengubah status penjualan
+      print('Berhasil mengubah status penjualan');
+    } else {
+      // Gagal mengubah status penjualan
+      print('Gagal mengubah status penjualan');
+    }
   }
 }
