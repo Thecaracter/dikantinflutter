@@ -1,4 +1,3 @@
-import 'package:dikantin/model/Proses_penjualan_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -324,7 +323,7 @@ class _BerandaState extends State<Beranda> {
                                   color: Color(0xff87C6E7),
                                 ),
                               ),
-                              FutureBuilder<List<ModelProsesPenjualan>>(
+                              FutureBuilder<List<ModelPenjualan>>(
                                 future: api.getprosesdate(),
                                 builder: (context, snapshot) {
                                   if (snapshot.hasData) {

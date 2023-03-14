@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:dikantin/model/Penjualan_mode.dart';
-import 'package:dikantin/model/Proses_penjualan_model.dart';
 import 'package:dikantin/model/Riwayat_model.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
@@ -230,7 +229,7 @@ class ServiceApiSuccesDate {
 
 class ServiceApiProsessDate {
   String? _idKantin;
-  Future<List<ModelProsesPenjualan>> getprosesdate() async {
+  Future<List<ModelPenjualan>> getprosesdate() async {
     final prefs = await SharedPreferences.getInstance();
 
     _idKantin = prefs.getString('id_kantin');
@@ -242,7 +241,7 @@ class ServiceApiProsessDate {
 
     if (response.statusCode == 200) {
       List jsonResponse = jsonDecode(response.body);
-      return jsonResponse.map((e) => ModelProsesPenjualan.fromJson(e)).toList();
+      return jsonResponse.map((e) => ModelPenjualan.fromJson(e)).toList();
     } else {
       throw Exception('Error fetching menu');
     }
