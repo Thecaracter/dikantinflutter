@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dikantin/model/Penjualan_mode.dart';
+import 'package:dikantin/model/Proses_penjualan_model.dart';
 import 'package:dikantin/model/Riwayat_model.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
@@ -55,7 +56,6 @@ class AuthService {
 }
 
 class ServiceApi {
-  final secureStorage = FlutterSecureStorage();
   String? _idKantin;
   Future<List<MenuApi>> getMenu() async {
     final prefs = await SharedPreferences.getInstance();
@@ -85,7 +85,6 @@ class ServiceApi {
 }
 
 class ServiceApiPenjualan {
-  final secureStorage = FlutterSecureStorage();
   String? _idKantin;
   Future<List<ModelPenjualan>> getPenjualan() async {
     final prefs = await SharedPreferences.getInstance();
@@ -115,7 +114,6 @@ class ServiceApiPenjualan {
 }
 
 class ServiceApiRiwayat {
-  final secureStorage = FlutterSecureStorage();
   String? _idKantin;
   Future<List<ModelRiwayat>> getriwayat() async {
     final prefs = await SharedPreferences.getInstance();
@@ -160,5 +158,101 @@ class UpdatePenjualanService {
       // Gagal mengubah status penjualan
       print('Gagal mengubah status penjualan');
     }
+  }
+}
+
+class UpdateHabisService {
+  Future<void> updatehabis(String id) async {
+    final url = Uri.parse('http://10.10.0.61/api/updatehabis');
+    final response = await http.put(
+      url,
+      body: {
+        'id_menu': id,
+      },
+    );
+    if (response.statusCode == 200) {
+      // Berhasil mengubah status penjualan
+      print('Berhasil mengubah status penjualan');
+    } else {
+      // Gagal mengubah status penjualan
+      print('Gagal mengubah status penjualan');
+    }
+  }
+}
+
+class UpdateAdaService {
+  Future<void> updateada(String id) async {
+    final url = Uri.parse('http://10.10.0.61/api/updateada');
+    final response = await http.put(
+      url,
+      body: {
+        'id_menu': id,
+      },
+    );
+    if (response.statusCode == 200) {
+      // Berhasil mengubah status penjualan
+      print('Berhasil mengubah status penjualan');
+    } else {
+      // Gagal mengubah status penjualan
+      print('Gagal mengubah status penjualan');
+    }
+  }
+}
+
+class ServiceApiSuccesDate {
+  String? _idKantin;
+  Future<List<ModelPenjualan>> getsuccesdate() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    _idKantin = prefs.getString('id_kantin');
+
+    final response = await http.post(
+      Uri.parse('http://10.10.0.61/api/apisucces-date'),
+      body: {'id_kantin': _idKantin?.toString() ?? ''},
+    );
+
+    if (response.statusCode == 200) {
+      List jsonResponse = jsonDecode(response.body);
+      return jsonResponse.map((e) => ModelPenjualan.fromJson(e)).toList();
+    } else {
+      throw Exception('Error fetching menu');
+    }
+  }
+
+  Future<void> saveIdKantin(int idKantin) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString(
+      'id_kantin',
+      idKantin.toString(),
+    );
+  }
+}
+
+class ServiceApiProsessDate {
+  String? _idKantin;
+  Future<List<ModelProsesPenjualan>> getprosesdate() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    _idKantin = prefs.getString('id_kantin');
+
+    final response = await http.post(
+      Uri.parse('http://10.10.0.61/api/apiproses-date'),
+      body: {'id_kantin': _idKantin?.toString() ?? ''},
+    );
+
+    if (response.statusCode == 200) {
+      List jsonResponse = jsonDecode(response.body);
+      return jsonResponse.map((e) => ModelProsesPenjualan.fromJson(e)).toList();
+    } else {
+      throw Exception('Error fetching menu');
+    }
+  }
+
+  Future<void> saveIdKantin(int idKantin) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString(
+      'id_kantin',
+      idKantin.toString(),
+    );
   }
 }

@@ -23,7 +23,7 @@ class _RiwayatState extends State<Riwayat> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body: Container(
         child: Stack(
           children: [
             Container(
@@ -59,7 +59,7 @@ class _RiwayatState extends State<Riwayat> {
               height: MediaQuery.of(context).size.height,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 255, 255, 255),
+                color: Color(0xffedf3f6),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(25),
                   topRight: Radius.circular(25),
@@ -74,61 +74,67 @@ class _RiwayatState extends State<Riwayat> {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: FutureBuilder<List<ModelRiwayat>>(
-                  future: listData,
-                  builder: (BuildContext context,
-                      AsyncSnapshot<List<ModelRiwayat>> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (snapshot.hasData) {
-                      final data = snapshot.data!;
-                      return SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: DataTable(
-                          columns: [
-                            DataColumn(label: Text('NO')),
-                            DataColumn(label: Text('Tanggal')),
-                            DataColumn(label: Text('Petugas')),
-                            DataColumn(label: Text('Menu')),
-                            DataColumn(label: Text('Jumlah')),
-                            DataColumn(label: Text('Harga')),
-                          ],
-                          rows: List<DataRow>.generate(
-                            data.length,
-                            (index) => DataRow(
-                              cells: [
-                                DataCell(Center(
-                                    child: Text((index + 1).toString()))),
-                                DataCell(Center(
-                                    child:
-                                        Text(data[index].tanggal.toString()))),
-                                DataCell(Center(
-                                    child: Text(data[index].kasir.toString()))),
-                                DataCell(Center(
-                                    child:
-                                        Text(data[index].pesanan.toString()))),
-                                DataCell(Center(
-                                    child:
-                                        Text(data[index].jumlah.toString()))),
-                                DataCell(
-                                  Text(
-                                    NumberFormat.decimalPattern('id_ID')
-                                        .format(data[index].hargaSatuan),
-                                  ),
-                                ),
+                child: SingleChildScrollView(
+                  child: Container(
+                    child: FutureBuilder<List<ModelRiwayat>>(
+                      future: listData,
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<ModelRiwayat>> snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (snapshot.hasData) {
+                          final data = snapshot.data!;
+                          return SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: DataTable(
+                              columns: [
+                                DataColumn(label: Text('NO')),
+                                DataColumn(label: Text('Tanggal')),
+                                DataColumn(label: Text('Petugas')),
+                                DataColumn(label: Text('Menu')),
+                                DataColumn(label: Text('Jumlah')),
+                                DataColumn(label: Text('Harga')),
                               ],
+                              rows: List<DataRow>.generate(
+                                data.length,
+                                (index) => DataRow(
+                                  cells: [
+                                    DataCell(Center(
+                                        child: Text((index + 1).toString()))),
+                                    DataCell(Center(
+                                        child: Text(
+                                            data[index].tanggal.toString()))),
+                                    DataCell(Center(
+                                        child: Text(
+                                            data[index].kasir.toString()))),
+                                    DataCell(Center(
+                                        child: Text(
+                                            data[index].pesanan.toString()))),
+                                    DataCell(Center(
+                                        child: Text(
+                                            data[index].jumlah.toString()))),
+                                    DataCell(
+                                      Text(
+                                        NumberFormat.decimalPattern('id_ID')
+                                            .format(data[index].hargaSatuan),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      );
-                    } else {
-                      return Center(
-                        child: Text('Error: ${snapshot.error}'),
-                      );
-                    }
-                  },
+                          );
+                        } else {
+                          return Center(
+                            child: Text('Error: ${snapshot.error}'),
+                          );
+                        }
+                      },
+                    ),
+                  ),
                 ),
               ),
             ),

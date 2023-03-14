@@ -1,9 +1,13 @@
+import 'package:dikantin/model/Proses_penjualan_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dikantin/api/service_Api.dart';
+
+import '../model/Penjualan_mode.dart';
 
 class Beranda extends StatefulWidget {
   @override
@@ -11,6 +15,8 @@ class Beranda extends StatefulWidget {
 }
 
 class _BerandaState extends State<Beranda> {
+  final ServiceApiSuccesDate service = ServiceApiSuccesDate();
+  final ServiceApiProsessDate api = ServiceApiProsessDate();
   String? _kantin;
   @override
   void initState() {
@@ -50,7 +56,7 @@ class _BerandaState extends State<Beranda> {
               width: 20.0,
               height: 20.0,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Color(0xffedf3f6),
                 borderRadius: BorderRadius.all(Radius.circular(5)),
               ),
               child: Image.asset(
@@ -243,16 +249,28 @@ class _BerandaState extends State<Beranda> {
                                   color: Color(0xff84d895),
                                 ),
                               ),
-                              Container(
-                                margin: EdgeInsets.only(left: 40, bottom: 5),
-                                child: Text(
-                                  "35",
-                                  style: TextStyle(
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xff84d895),
-                                  ),
-                                ),
+                              FutureBuilder<List<ModelPenjualan>>(
+                                future: service.getsuccesdate(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Container(
+                                      margin:
+                                          EdgeInsets.only(left: 40, bottom: 5),
+                                      child: Text(
+                                        ' ${snapshot.data!.length}',
+                                        style: TextStyle(
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xff84d895),
+                                        ),
+                                      ),
+                                    );
+                                  } else if (snapshot.hasError) {
+                                    return Text('Error: ${snapshot.error}');
+                                  } else {
+                                    return Text("Not found");
+                                  }
+                                },
                               ),
                             ],
                           ),
@@ -306,16 +324,28 @@ class _BerandaState extends State<Beranda> {
                                   color: Color(0xff87C6E7),
                                 ),
                               ),
-                              Container(
-                                margin: EdgeInsets.only(left: 35, bottom: 5),
-                                child: Text(
-                                  "3",
-                                  style: TextStyle(
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xff87C6E7),
-                                  ),
-                                ),
+                              FutureBuilder<List<ModelProsesPenjualan>>(
+                                future: api.getprosesdate(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Container(
+                                      margin:
+                                          EdgeInsets.only(left: 40, bottom: 5),
+                                      child: Text(
+                                        ' ${snapshot.data!.length}',
+                                        style: TextStyle(
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xff87C6E7),
+                                        ),
+                                      ),
+                                    );
+                                  } else if (snapshot.hasError) {
+                                    return Text('Error: ${snapshot.error}');
+                                  } else {
+                                    return Text("Not found");
+                                  }
+                                },
                               ),
                             ],
                           ),

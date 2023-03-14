@@ -92,7 +92,7 @@ class _PesanState extends State<Pesan> {
                   height: MediaQuery.of(context).size.height / 1.3,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 255, 255, 255),
+                    color: Color(0xffedf3f6),
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(25),
                       topRight: Radius.circular(25),
@@ -236,14 +236,6 @@ class _PesanState extends State<Pesan> {
                                                                   _refreshpesanan();
                                                                   Navigator.pop(
                                                                       context);
-
-                                                                  // Navigator.push(
-                                                                  //     context,
-                                                                  //     MaterialPageRoute(
-                                                                  //       builder:
-                                                                  //           (context) =>
-                                                                  //               Navigation(),
-                                                                  //     ));
                                                                 },
                                                                 style: ElevatedButton
                                                                     .styleFrom(

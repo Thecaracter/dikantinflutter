@@ -72,7 +72,7 @@ class _MenuState extends State<Menu> {
                   // height: double.infinity,
                   // width: double.infinity,
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 255, 255, 255),
+                    color: Color(0xffedf3f6),
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(25),
                       topRight: Radius.circular(25),
@@ -122,83 +122,115 @@ class _MenuState extends State<Menu> {
                                         List<MenuApi>? isimenu = snapshot.data;
                                         return Flexible(
                                           fit: FlexFit.loose,
-                                          child: GridView.builder(
-                                            shrinkWrap: true,
-                                            itemCount: isimenu?.length,
-                                            gridDelegate:
-                                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount: 3,
-                                              crossAxisSpacing: 20,
-                                              mainAxisSpacing: 20,
-                                            ),
-                                            itemBuilder: (context, index) {
-                                              return Card(
-                                                // width: 100,
-                                                // height: 2000,
-                                                // decoration: BoxDecoration(
-                                                //   border: Border.all(color: Colors.grey),
-                                                //   boxShadow: [
-                                                //     BoxShadow(
-                                                //       color: Color(0x3f000000),
-                                                //       offset: Offset(
-                                                //         9,
-                                                //         9,
-                                                //       ),
-                                                //       blurRadius: 5,
-                                                //     ),
-                                                //   ],
-                                                //   color:
-                                                //       Color.fromARGB(255, 255, 255, 255),
-                                                //   borderRadius: BorderRadius.circular(20),
-                                                // ),
-                                                elevation: 5,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                ),
-                                                child: Column(
-                                                  children: <Widget>[
-                                                    // SizedBox(
-                                                    //   height: 10,
-                                                    // ),
-                                                    Image.network(
-                                                      "http://10.10.0.61/public/storage/" +
-                                                          isimenu![index]
-                                                              .foto
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            child: GridView.builder(
+                                              shrinkWrap: true,
+                                              itemCount: isimenu?.length,
+                                              gridDelegate:
+                                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 3,
+                                                crossAxisSpacing: 10,
+                                                mainAxisSpacing: 15,
+                                                childAspectRatio: 0.8,
+                                              ),
+                                              itemBuilder: (context, index) {
+                                                return Card(
+                                                  elevation: 10,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                  ),
+                                                  child: Column(
+                                                    children: <Widget>[
+                                                      // SizedBox(
+                                                      //   height: 10,
+                                                      // ),
+                                                      Image.network(
+                                                        "http://10.10.0.61/public/storage/" +
+                                                            isimenu![index]
+                                                                .foto
+                                                                .toString(),
+                                                        width: 50.0,
+                                                        height: 50.0,
+                                                        fit: BoxFit.contain,
+                                                      ),
+                                                      SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      Text(
+                                                        isimenu[index]
+                                                            .harga
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color:
+                                                              Color(0xff51AADD),
+                                                          fontSize: 12,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        isimenu[index]
+                                                            .namaMenu
+                                                            .toString(),
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 12,
+                                                        ),
+                                                      ),
+                                                      ElevatedButton(
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          backgroundColor: isimenu[
+                                                                          index]
+                                                                      .statusStok ==
+                                                                  'ada'
+                                                              ? Colors.green
+                                                              : Colors.red,
+                                                        ),
+                                                        onPressed: () {
+                                                          if (isimenu[index]
+                                                                  .statusStok ==
+                                                              'ada') {
+                                                            UpdateHabisService()
+                                                                .updatehabis(isimenu[
+                                                                        index]
+                                                                    .id
+                                                                    .toString());
+                                                            _refreshMenu();
+                                                          } else if (isimenu[
+                                                                      index]
+                                                                  .statusStok ==
+                                                              'tidak ada') {
+                                                            UpdateAdaService()
+                                                                .updateada(isimenu[
+                                                                        index]
+                                                                    .id
+                                                                    .toString());
+                                                            _refreshMenu();
+                                                          }
+                                                        },
+                                                        child: Text(
+                                                          isimenu[index]
+                                                              .statusStok
                                                               .toString(),
-                                                      width: 50.0,
-                                                      height: 50.0,
-                                                      fit: BoxFit.contain,
-                                                    ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Text(
-                                                      isimenu![index]
-                                                          .harga
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color:
-                                                            Color(0xff51AADD),
-                                                        fontSize: 12,
+                                                          style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 12,
+                                                          ),
+                                                        ),
                                                       ),
-                                                    ),
-                                                    Text(
-                                                      isimenu[index]
-                                                          .namaMenu
-                                                          .toString(),
-                                                      style: TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        fontSize: 12,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-                                            },
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                            ),
                                           ),
                                         );
                                       } else if (snapshot.hasError) {

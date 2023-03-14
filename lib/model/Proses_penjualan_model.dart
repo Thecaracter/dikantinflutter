@@ -1,4 +1,4 @@
-class ModelRiwayat {
+class ModelProsesPenjualan {
   String? foto;
   int? idDetail;
   String? tanggal;
@@ -8,14 +8,14 @@ class ModelRiwayat {
   String? kasir;
   String? modelPembayaran;
   int? noMeja;
-  int? kantin;
+  String? kantin;
   String? pesanan;
   int? hargaSatuan;
   int? jumlah;
   int? diskon;
   String? status;
 
-  ModelRiwayat(
+  ModelProsesPenjualan(
       {this.foto,
       this.idDetail,
       this.tanggal,
@@ -32,7 +32,7 @@ class ModelRiwayat {
       this.diskon,
       this.status});
 
-  ModelRiwayat.fromJson(Map<String, dynamic> json) {
+  ModelProsesPenjualan.fromJson(Map<String, dynamic> json) {
     foto = json['foto'];
     idDetail = json['id_detail'];
     tanggal = json['tanggal'];
